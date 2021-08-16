@@ -22,7 +22,14 @@ int data1, data2, data3;
 int val = 99;
 
 // controlling
-bool fan;
+bool fan1;
+bool fan2;
+
+bool larva1;
+bool larva2;
+
+bool sampah1;
+bool sampah2;
 
 void setup() {
   Serial.begin(115200);
@@ -51,12 +58,6 @@ void setup() {
 }
 void loop()
 {
-
-  // write to database
-//  Firebase.setInt(firebaseData, "/data", val) ;
-//  val++;
-//  delay(1000);
-
 readfromdb();
 communicate();
 }
@@ -68,13 +69,44 @@ void pushtodb()
 
 void readfromdb()
 {
+    // fan
     if (Firebase.getBool(firebaseData, "/kandang1/fan")) {                         
-    if (firebaseData.dataType() == "boolean") {                         
-      fan = firebaseData.boolData();
-//      Serial.println(fan);
-//      delay(500);
+        if (firebaseData.dataType() == "boolean") {                         
+          fan1 = firebaseData.boolData();
+        }
     }
-  }
+
+    if (Firebase.getBool(firebaseData, "/kandang2/fan")) {                         
+        if (firebaseData.dataType() == "boolean") {                         
+          fan2 = firebaseData.boolData();
+        }
+    }
+
+    // larva
+    if (Firebase.getBool(firebaseData, "/kandang1/larva")) {                         
+        if (firebaseData.dataType() == "boolean") {                         
+          larva1 = firebaseData.boolData();
+        }
+    }
+
+    if (Firebase.getBool(firebaseData, "/kandang2/larva")) {                         
+        if (firebaseData.dataType() == "boolean") {                         
+          larva2 = firebaseData.boolData();
+        }
+    }
+
+    // sampah
+    if (Firebase.getBool(firebaseData, "/kandang1/sampah")) {                         
+        if (firebaseData.dataType() == "boolean") {                         
+          sampah1 = firebaseData.boolData();
+        }
+    }
+
+    if (Firebase.getBool(firebaseData, "/kandang2/sampah")) {                         
+        if (firebaseData.dataType() == "boolean") {                         
+          sampah2 = firebaseData.boolData();
+        }
+    }
 else {
     Serial.println(firebaseData.errorReason());
   }
@@ -91,8 +123,6 @@ void communicate()
   Serial.print(kelembapan1);
   Serial.print(" | kelembapan2 ");
   Serial.print(kelembapan2);
-  Serial.print(" | fan ");
-  Serial.print(fan);
   Serial.print(" | status comm ");
   Serial.println(status_comm);
   switch (status_comm)
@@ -110,30 +140,15 @@ void communicate()
         kelembapan1 = root["lembap1"];
         kelembapan2 = root["lembap2"];
         data3 = root["end"];
-//        status_comm = 1;
- 
-        
-//        delay(100);
-//        if (data3 == 99)
-//        {
-          status_comm = 1;
-//        }
-//Serial.print("ini data fan pertama");
-//      Serial.println(fan);
+        status_comm = 1;
       }
-      
-//      status_comm = 1;
       break;
 
     case 1:
-//       Serial.print("ini data fan ");
-//      Serial.println(fan);
       kirimdatajson();
-delay(2000);
-//  if (Serial.available())
+      delay(2000);
       status_comm = 0;
       break;
-
   }
 }
 
@@ -142,9 +157,33 @@ void kirimdatajson()
 {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
-  root["larva"] = 1;
-  root["sampah"] = 3;
-    root["fan"] = fan;
+  if(larva1 == 1 && larva2 ==1)
+    root["larva"] = 3;
+  else if(larva1 == 1 && larva2 ==0)
+    root["larva"] = 1;
+  else if(larva1 == 0 && larva2 ==1)
+    root["larva"] = 2;
+  else
+    root["larva"] = 0;
+
+  if(sampah1 == 1 && sampah2 ==1)
+    root["sampah"] = 3;
+  else if(sampah1 == 1 && sampah2 ==0)
+    root["sampah"] = 1;
+  else if(sampah1 == 0 && sampah2 ==1)
+    root["sampah"] = 2;
+  else
+    root["sampah"] = 0;
+
+  if(fan1 == 1 && fan2 ==1)
+    root["fan"] = 3;
+  else if(fan1 == 1 && fan2 ==0)
+    root["fan"] = 1;
+  else if(fan1 == 0 && fan2 ==1)
+    root["fan"] = 2;
+  else
+    root["fan"] = 0;
+  
   root["end"] = 99;
   root.printTo(Serial1);
   

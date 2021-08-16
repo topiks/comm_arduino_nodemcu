@@ -17,21 +17,27 @@ while (!Serial) {
 }
 
 void loop() { // run over and over
-  Serial.print("larva ");
-          Serial.print(larva);
-          Serial.print(" | sampah ");
-          Serial.print(sampah);
-          Serial.print(" | fan ");
-          Serial.print(fan);
-          Serial.print(" | status comm ");
-          Serial.println(status_comm);
-switch(status_comm)
+ 
+
+communicate();
+}
+
+void communicate()
+{
+   Serial.print("larva ");
+   Serial.print(larva);
+   Serial.print(" | sampah ");
+   Serial.print(sampah);
+   Serial.print(" | fan ");
+   Serial.print(fan);
+   Serial.print(" | status comm ");
+   Serial.println(status_comm);
+  switch(status_comm)
 {
   case 0:
       kirimdatajson();
-//       if (Serial.available())
-delay(2000);
-          status_comm = 1;
+      delay(2000);
+      status_comm = 1;
   break;
 
   case 1:
@@ -45,25 +51,11 @@ delay(2000);
           larva = root["larva"];
           sampah = root["sampah"];
           fan = root["fan"];
-//          Serial.print("larva ");
-//          Serial.print(larva);
-//          Serial.print(" | sampah ");
-//          Serial.print(sampah);
-//          Serial.print(" | fan ");
-//          Serial.println(fan);
           data3=root["end"];
-//          delay(100);
-//            if(data3 == 99)
-//            {
-                status_comm = 0;   
-//            }
+          status_comm = 0;   
   }
   break;
-
-  case 2:
-  break;
 }
-
 }
 
 void kirimdata()
