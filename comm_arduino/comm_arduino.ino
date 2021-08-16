@@ -22,17 +22,22 @@ void loop() { // run over and over
           Serial.print(" | sampah ");
           Serial.print(sampah);
           Serial.print(" | fan ");
-          Serial.println(fan);
+          Serial.print(fan);
+          Serial.print(" | status comm ");
+          Serial.println(status_comm);
 switch(status_comm)
 {
   case 0:
       kirimdatajson();
-       if (Serial.available())
+//       if (Serial.available())
+delay(2000);
           status_comm = 1;
   break;
 
   case 1:
-StaticJsonBuffer<1000> jsonBuffer;
+  {
+    DynamicJsonBuffer jsonBuffer;
+  
           JsonObject& root = jsonBuffer.parseObject(Serial);
           if (root == JsonObject::invalid())
             return;
@@ -47,11 +52,12 @@ StaticJsonBuffer<1000> jsonBuffer;
 //          Serial.print(" | fan ");
 //          Serial.println(fan);
           data3=root["end"];
-          delay(100);
-            if(data3 == 99)
-            {
+//          delay(100);
+//            if(data3 == 99)
+//            {
                 status_comm = 0;   
-            }
+//            }
+  }
   break;
 
   case 2:
@@ -68,7 +74,7 @@ void kirimdata()
 
 void kirimdatajson()
 {
-StaticJsonBuffer<1000> jsonBuffer;
+DynamicJsonBuffer jsonBuffer;
  JsonObject& root = jsonBuffer.createObject();
   root["suhu1"] = 100;
   root["suhu2"] = 8;
@@ -77,7 +83,7 @@ StaticJsonBuffer<1000> jsonBuffer;
   root["end"] = 99;
   
   root.printTo(s);
-  delay(1000);
+  
 }
 
 void terimadata()

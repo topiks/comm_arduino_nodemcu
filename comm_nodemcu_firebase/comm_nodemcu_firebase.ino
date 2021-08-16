@@ -1,4 +1,3 @@
-
 #include <ESP8266WiFi.h>
 #include <FirebaseESP8266.h>
                           
@@ -12,14 +11,14 @@ FirebaseData firebaseData;
 
 // Declare global variable to store value
 int val=0;
+int databaru;
+bool fan;
 
 void setup() {
 
-  Serial.begin(115200);                                   // Select the same baud rate if you want to see the datas on Serial Monitor
-
+  Serial.begin(115200);                                  
   Serial.println("Serial communication started\n\n");  
-           
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);                                     //try to connect with wifi
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);               
   Serial.print("Connecting to ");
   Serial.print(WIFI_SSID);
   
@@ -28,13 +27,12 @@ void setup() {
     delay(500);
   }
 
-  
   Serial.println();
   Serial.print("Connected to ");
   Serial.println(WIFI_SSID);
   Serial.print("IP Address is : ");
-  Serial.println(WiFi.localIP());                                            //print local IP address
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);   // connect to firebase
+  Serial.println(WiFi.localIP());                                          
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH); 
 
   Firebase.reconnectWiFi(true);
   delay(1000);
@@ -44,27 +42,25 @@ void loop() {
 
 // Write
 
-if (Firebase.setInt(firebaseData, "/data", val)) {    // On successful Write operation, function returns 1  
-               val++;
-               delay(1000);
-     }
+Firebase.setInt(firebaseData, "/data", val) ;
+val++;
 
-else {        
-    Serial.println(firebaseData.errorReason());
-  }
+//if (Firebase.getInt(firebaseData, "/data")) {                         
+//    if (firebaseData.dataType() == "int") {                          
+//      databaru = firebaseData.intData();
+//      Serial.println(databaru);
+//      delay(500);
+//    }
+//  }
 
-
-// Read
-if (Firebase.getInt(firebaseData, "/kandang1/suhu")) {                           // On successful Read operation, function returns 1  
-    if (firebaseData.dataType() == "int") {                            // print read data if it is integer
-      val = firebaseData.intData();
-      Serial.println(val);
-      Serial.println("\n Change value at firebase console to see changes here."); 
-      delay(10000);
+if (Firebase.getBool(firebaseData, "/kandang1/fan")) {                         
+    if (firebaseData.dataType() == "boolean") {                         
+      fan = firebaseData.boolData();
+      Serial.println(fan);
+      delay(500);
     }
-
-  } else {
+  }
+else {
     Serial.println(firebaseData.errorReason());
   }
- 
 }
