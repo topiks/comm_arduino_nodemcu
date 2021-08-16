@@ -4,6 +4,7 @@
 SoftwareSerial s(5,6);
 String data;
 int status_comm = 0;
+int data1, data2, data3;
 
 void setup() {
 // Open serial communications and wait for port to open:
@@ -31,8 +32,31 @@ switch(status_comm)
   break;
 
   case 1:
-    Serial.write(Serial.read());
-    status_comm = 0;
+//    Serial.write(Serial.read());
+
+StaticJsonBuffer<1000> jsonBuffer;
+          JsonObject& root = jsonBuffer.parseObject(Serial);
+          if (root == JsonObject::invalid())
+            return;
+         
+          Serial.println("JSON received and parsed");
+          root.prettyPrintTo(Serial);
+          Serial.print("Data 1 ");
+          Serial.println("");
+          data1=root["suhu1"];
+          Serial.print(data1);
+          Serial.print("   Data 2 ");
+          data2=root["suhu2"];
+          Serial.print(data2);
+          Serial.println("");
+          Serial.println("---------------------xxxxx--------------------");
+          data3=root["end"];
+          delay(100);
+            if(data3 == 99)
+            {
+                status_comm = 0;   
+            }
+//    status_comm = 0;
   break;
 
   case 2:

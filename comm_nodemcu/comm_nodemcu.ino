@@ -47,7 +47,8 @@ switch(status_comm)
     break;   
 
     case 1:
-        Serial1.println(str);
+//        Serial1.println(str);
+       kirimdatajson();
         delay(1000);
         status_comm = 0;
     break;
@@ -62,6 +63,18 @@ switch(status_comm)
 //kirimdata();
 
 //delay(1000);
+}
+
+void kirimdatajson()
+{
+    StaticJsonBuffer<1000> jsonBuffer;
+ JsonObject& root = jsonBuffer.createObject();
+  root["suhu1"] = 100;
+  root["suhu2"] = 200;
+  root["end"] = 99;
+  
+  root.printTo(Serial1);
+  delay(1000);
 }
 
 void kirimdata()
