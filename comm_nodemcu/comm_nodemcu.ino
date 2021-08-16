@@ -38,15 +38,6 @@ switch(status_comm)
           suhu2 = root["suhu2"];
           kelembapan1 = root["lembap1"];
           kelembapan2 = root["lembap2"];
-//          Serial.print("suhu1 ");
-//          Serial.print(suhu1);
-//          Serial.print(" | suhu2 ");
-//          Serial.print(suhu2);
-//          Serial.print(" | kelembapan1 ");
-//          Serial.print(kelembapan1);
-//           Serial.print(" | kelembapan2 ");
-//          Serial.println(kelembapan2);
-//          Serial.println("---------------------xxxxx--------------------");
           data3=root["end"];
           delay(100);
             if(data3 == 99)
