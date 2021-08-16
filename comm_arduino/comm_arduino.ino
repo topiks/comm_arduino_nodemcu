@@ -68,9 +68,9 @@ void kirimdatajson()
 {
 DynamicJsonBuffer jsonBuffer;
  JsonObject& root = jsonBuffer.createObject();
-  root["suhu1"] = 100;
+  root["suhu1"] = 10;
   root["suhu2"] = 8;
-  root["lembap1"] = 100;
+  root["lembap1"] = 10;
   root["lembap2"] = 8;
   root["end"] = 99;
   

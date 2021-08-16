@@ -19,7 +19,7 @@ int suhu1, suhu2, kelembapan1, kelembapan2;
 int data1, data2, data3;
 
 // firebase testing
-int val = 99;
+int val = 0;
 
 // controlling
 bool fan1;
@@ -58,6 +58,7 @@ void setup() {
 }
 void loop()
 {
+pushtodb();
 readfromdb();
 communicate();
 }
@@ -65,6 +66,11 @@ communicate();
 void pushtodb()
 {
     Firebase.setInt(firebaseData, "/data", val);
+    Firebase.setInt(firebaseData, "/kandang1/suhu", suhu1);
+    Firebase.setInt(firebaseData, "/kandang2/suhu", suhu2);
+    Firebase.setInt(firebaseData, "/kandang1/kelembapan", kelembapan1);
+    Firebase.setInt(firebaseData, "/kandang2/kelembapan", kelembapan2);
+    val++;
 }
 
 void readfromdb()
@@ -114,7 +120,6 @@ else {
 
 void communicate()
 {
-    val++;
   Serial.print("suhu1 ");
   Serial.print(suhu1);
   Serial.print(" | suhu2 ");
