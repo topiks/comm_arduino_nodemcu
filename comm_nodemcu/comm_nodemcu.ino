@@ -5,6 +5,7 @@ String str;
 char dataterima[100];
 
 int status_comm = 0;
+int suhu1, suhu2, kelembapan1, kelembapan2;
 int data1, data2, data3;
 
 void setup(){
@@ -26,17 +27,29 @@ switch(status_comm)
           if (root == JsonObject::invalid())
             return;
          
-          Serial.println("JSON received and parsed");
-          root.prettyPrintTo(Serial);
-          Serial.print("Data 1 ");
-          Serial.println("");
-          data1=root["suhu1"];
-          Serial.print(data1);
-          Serial.print("   Data 2 ");
-          data2=root["suhu2"];
-          Serial.print(data2);
-          Serial.println("");
-          Serial.println("---------------------xxxxx--------------------");
+//          Serial.println("JSON received and parsed");
+//          root.prettyPrintTo(Serial);
+//          Serial.print("Data 1 ");
+//          Serial.println("");
+//          data1=root["data1"];
+//          Serial.print(data1);
+//          Serial.print("Data 2 ");
+//          data2=root["data2"];
+//          Serial.print(data2);
+//          Serial.println("");
+          suhu1 = root["suhu1"];
+          suhu2 = root["suhu1"];
+          kelembapan1 = root["kelembapan1"];
+          kelembapan2 = root["kelembapan1"];
+          Serial.print("suhu1 ");
+          Serial.print(suhu1);
+          Serial.print(" | suhu2 ");
+          Serial.print(suhu2);
+          Serial.print(" | kelembapan1 ");
+          Serial.print(kelembapan1);
+           Serial.print(" | kelembapan2 ");
+          Serial.println(kelembapan2);
+//          Serial.println("---------------------xxxxx--------------------");
           data3=root["end"];
           delay(100);
             if(data3 == 99)
@@ -69,8 +82,12 @@ void kirimdatajson()
 {
     StaticJsonBuffer<1000> jsonBuffer;
  JsonObject& root = jsonBuffer.createObject();
-  root["suhu1"] = 100;
-  root["suhu2"] = 200;
+  root["larva"] = 1;
+  root["sampah"] = 0;
+  root["fan"] = 3;
+//  root["sampah2"] = 0;
+//  root["fan1"] = 1;
+//  root["fan2"] = 0;
   root["end"] = 99;
   
   root.printTo(Serial1);

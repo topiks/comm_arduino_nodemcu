@@ -5,6 +5,7 @@ SoftwareSerial s(5,6);
 String data;
 int status_comm = 0;
 int data1, data2, data3;
+int larva, sampah, fan;
 
 void setup() {
 // Open serial communications and wait for port to open:
@@ -39,17 +40,16 @@ StaticJsonBuffer<1000> jsonBuffer;
           if (root == JsonObject::invalid())
             return;
          
-          Serial.println("JSON received and parsed");
-          root.prettyPrintTo(Serial);
-          Serial.print("Data 1 ");
-          Serial.println("");
-          data1=root["suhu1"];
-          Serial.print(data1);
-          Serial.print("   Data 2 ");
-          data2=root["suhu2"];
-          Serial.print(data2);
-          Serial.println("");
-          Serial.println("---------------------xxxxx--------------------");
+          larva = root["larva"];
+          sampah = root["sampah"];
+          fan = root["fan"];
+          Serial.print("larva ");
+          Serial.print(larva);
+          Serial.print(" | sampah ");
+          Serial.print(sampah);
+          Serial.print(" | fan ");
+          Serial.println(fan);
+//          Serial.println("---------------------xxxxx--------------------");
           data3=root["end"];
           delay(100);
             if(data3 == 99)
@@ -76,7 +76,9 @@ void kirimdatajson()
 StaticJsonBuffer<1000> jsonBuffer;
  JsonObject& root = jsonBuffer.createObject();
   root["suhu1"] = 100;
-  root["suhu2"] = 200;
+  root["suhu2"] = 8;
+  root["lembap1"] = 100;
+  root["lembap2"] = 8;
   root["end"] = 99;
   
   root.printTo(s);
