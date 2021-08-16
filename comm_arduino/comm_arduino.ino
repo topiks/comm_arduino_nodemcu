@@ -17,24 +17,21 @@ while (!Serial) {
 }
 
 void loop() { // run over and over
-data =String("suhu = 10, lempap = 20 cok");
-
-//kirimdatajson();
-//terimadata();
-//Serial.println(status_comm);
-
+  Serial.print("larva ");
+          Serial.print(larva);
+          Serial.print(" | sampah ");
+          Serial.print(sampah);
+          Serial.print(" | fan ");
+          Serial.println(fan);
 switch(status_comm)
 {
   case 0:
       kirimdatajson();
        if (Serial.available())
           status_comm = 1;
-//        Serial.write(Serial.read());
   break;
 
   case 1:
-//    Serial.write(Serial.read());
-
 StaticJsonBuffer<1000> jsonBuffer;
           JsonObject& root = jsonBuffer.parseObject(Serial);
           if (root == JsonObject::invalid())
@@ -43,20 +40,18 @@ StaticJsonBuffer<1000> jsonBuffer;
           larva = root["larva"];
           sampah = root["sampah"];
           fan = root["fan"];
-          Serial.print("larva ");
-          Serial.print(larva);
-          Serial.print(" | sampah ");
-          Serial.print(sampah);
-          Serial.print(" | fan ");
-          Serial.println(fan);
-//          Serial.println("---------------------xxxxx--------------------");
+//          Serial.print("larva ");
+//          Serial.print(larva);
+//          Serial.print(" | sampah ");
+//          Serial.print(sampah);
+//          Serial.print(" | fan ");
+//          Serial.println(fan);
           data3=root["end"];
           delay(100);
             if(data3 == 99)
             {
                 status_comm = 0;   
             }
-//    status_comm = 0;
   break;
 
   case 2:
@@ -84,8 +79,6 @@ StaticJsonBuffer<1000> jsonBuffer;
   root.printTo(s);
   delay(1000);
 }
-
-
 
 void terimadata()
 {
