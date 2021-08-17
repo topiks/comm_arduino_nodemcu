@@ -17,9 +17,14 @@ while (!Serial) {
 }
 
 void loop() { // run over and over
- 
+  bacasensor();
+  communicate();
+}
 
-communicate();
+void bacasensor()
+{
+  // baca sensor
+  
 }
 
 void communicate()
